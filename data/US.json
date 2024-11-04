@@ -1,0 +1,64 @@
+{
+    "streetNames": [
+        "Elm Street",
+        "Maple Avenue",
+        "Oak Street",
+        "Pine Road",
+        "Cedar Lane",
+        "Walnut Street",
+        "Peachtree Blvd",
+        "Washington Ave",
+        "Sunset Boulevard",
+        "Broadway"
+    ],
+    "streetNumbers": [
+        "101",
+        "202",
+        "303",
+        "404",
+        "505",
+        "606",
+        "707",
+        "808",
+        "909",
+        "1234",
+        "4321",
+        "5678"
+    ],
+    "cities": [
+        "Springfield",
+        "Riverside",
+        "Greenville",
+        "Fairview",
+        "Madison",
+        "Georgetown",
+        "Salem",
+        "Arlington",
+        "Ashland",
+        "Clinton"
+    ],
+    "states": [
+        "IL",
+        "CA",
+        "NY",
+        "TX",
+        "FL",
+        "NV",
+        "OH",
+        "MI",
+        "GA",
+        "NC"
+    ],
+    "zipCodes": [
+        "62701",
+        "90210",
+        "10001",
+        "73301",
+        "33101",
+        "89501",
+        "44101",
+        "48201",
+        "30301",
+        "27501"
+    ]
+}

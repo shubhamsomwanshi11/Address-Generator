@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./js/index.js"></script>
+</head>
+
+<body>
+    <!-- Important to update as per generator -->
+    <span style="display: none;" id="generator">US</span>
+    <nav id="navbar" class="navbar navstyle pt-1 pb-1 is-fixed-top is-sticky light-theme" role="navigation"
+        aria-label="main navigation">
+        <div class="navbar-brand is-hidden-desktop">
+            <a href="/" class="navbar-item">
+                <h1 class="title is-5" style="font-family: 'Lobster', cursive; font-weight: 100;">Address Generator</h1>
+            </a>
+
+            <div class="mt-2">
+                <div class="control">
+                    <input class="input inputs is-rounded " id="searchbar" type="text"
+                        placeholder="Search Random Formatters">
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-menu columns">
+            <div class="column navbar-item">
+                <a href="/">
+                    <h1 class="title m-2" style="font-family: 'Lobster', cursive;">Address Generator</h1>
+                </a>
+            </div>
+            <div class="column mt-2 navbar-item ">
+                <div class="control has-icons-right">
+                    <input id="search" autofocus="autofocus" class="input is-rounded" type="text"
+                        placeholder="Search Address Generator" autocomplete="off"
+                        style="background-color: lightgrey; color: black;">
+                    <span class="icon is-right has-text-grey">
+                        <svg class="svgicon16">
+                            <use href="#search"></use>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <div class="column mt-2 navbar-item ">
+                <!-- <div class="buttons" style="float: right;">
+                    <button class="button is-ghost is-clickable mx-2 light-theme" >
+                        <span class="icon is-right has-text-light is-clickable light-theme" id="fullscreenset">
+                            <svg class="svgicon">
+                                <use href="#fullscreen"></use>
+                            </svg>
+                        </span>
+                    </button>
+                    <button class="button is-ghost is-clickable mx-2 light-theme" >
+                        <span class="icon is-right has-text-light is-clickable light-theme" id="theme"><svg
+                                class="svgicon">
+                                <use href="#dark"></use>
+                            </svg></span>
+                    </button>
+                    <button class="button is-ghost is-light has-text-light mx-2 light-theme " id="tools">
+                        <strong class="ml-2 pb-1">Favourites ❤️</strong>
+                    </button>
+                </div> -->
+            </div>
+        </div>
+    </nav>
+    <section class="section" style="margin-top: 50px">
+        <!-- Controllers -->
+        <h1 class="has-text-centered title" style="font-family: 'Lobster', cursive; font-weight: 100;">US Address
+            Generator</h1>
+        <hr />
+        <div class="columns">
+            <div class="column is-2">
+                <div class="field has-addons">
+                    <div class="control">
+                        <input id="inputRN" class="input has-background-grey-dark has-text-light is-info light-theme"
+                            type="text" value="12" placeholder="Number">
+                    </div>
+                    <div class="control">
+                        <a class="button is-info is-outlined" onclick="generateAddresses()">
+                            Generate
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-10"> <!-- for data content-->
+                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(2)">
+                    2 Addresses </button>
+                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(5)">
+                    5
+                </button>
+                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(10)">
+                    10
+                </button>
+                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(15)">
+                    15
+                </button>
+                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(20)">
+                    20
+                </button>
+                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(25)">
+                    25
+                </button>
+                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses('all')">
+                    All
+                </button>
+                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses('random')">
+                    Random
+                </button>
+
+                <button class="button is-outlined is-info is-pulled-right" onclick="downloadAddresses()">
+                    Download
+                </button>
+
+                <div class="select is-info is-pulled-right mr-2">
+                    <select class="has-background-grey-dark has-text-light light-theme" id="filetype">
+                        <option value="TEXT">TEXT</option>
+                        <option value="JSON">JSON</option>
+                        <option value="XML">XML</option>
+                        <option value="CSV">CSV</option>
+                    </select>
+                </div>
+                <select id="selectCategory" class="is-hidden" onchange="sampleCards('generate');">
+                    <option>All</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Showing Generated Address -->
+        <div id="addressArea" class="columns is-multiline" style="min-height: 60vh;">
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(0)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-0">101 Elm Street, Arlington, TX 90210</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(1)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-1">5678 Oak Street, Arlington, NY 30301</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(2)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-2">505 Elm Street, Springfield, FL 48201</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(3)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-3">5678 Peachtree Blvd, Greenville, GA 48201</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(4)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-4">606 Cedar Lane, Salem, NV 30301</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(5)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-5">909 Walnut Street, Georgetown, OH 90210</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(6)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-6">808 Peachtree Blvd, Greenville, TX 73301</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(7)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-7">1234 Sunset Boulevard, Springfield, GA 30301</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(8)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-8">303 Maple Avenue, Salem, MI 27501</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(9)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-9">5678 Oak Street, Springfield, GA 33101</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(10)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-10">1234 Peachtree Blvd, Fairview, OH 33101</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(11)">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mt-1" id="address-11">303 Oak Street, Greenville, IL 30301</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Count -->
+        <div class="notification has-text-centered p-3" style="border-radius: 8px;">
+            <h3 class="is-size-3" style="font-family: 'Lobster', cursive; font-weight: 100;" id="count">
+                <span class="is-size-1 has-text-warning" id="generatedCount">12</span>
+                Addresses generated
+            </h3>
+        </div>
+
+        <div class="columns mt-2">
+            <!-- About Seciton -->
+            <div class="column is-9">
+                <h2 class="title" style="font-family: 'Lobster', cursive;">US
+                    Address Generator Online
+                </h2>
+                <div class="content">
+                    <p class="is-size-5">The Random Address Generator tool helps to generate addresses of the United
+                        States.
+                        It generates random addresses with details of a Avenue name, city, state, and zip code.</p>
+                    <p class="is-size-5">Address Randomizer is a piece of software that can generate random addresses as
+                        needed. This tool is designed to generate addresses in the United States.</p>
+                    <p class="is-size-5">The Random Address Generator provides a quick way to add a fake address to a
+                        website or document without having to spend time on coming up with one.</p>
+                    <p class="is-size-5">It is used by people to generate fake names, addresses, and phone numbers. This
+                        tool is also used by marketers to generate fake leads and new customers.</p>
+                    <p class="is-size-5">The address helps to direct mail, package deliveries, and other types of
+                        traffic to
+                        the correct destination.</p>
+                    <h2>What can you do with Random Address Generator Tool?</h2>
+                    <ul>
+                        <li>It helps to generate road name, city name, state, and zip code and you can use these random
+                            addresses for the snail-mailing letter. This can be used as made up home address generator.
+                        </li>
+                        <li>This tool can be used for fun and to generate fake or different addresses.</li>
+                        <li>Online Random Address Generator tool works well on Windows, MAC, Linux, Chrome, Firefox,
+                            Edge,
+                            and Safari.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Other Generators -->
+            <div class="column">
+                <div class="box has-text-centered is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                    style="height: 100%;">
+                    <a href="/california-address-generator" class="button is-medium mb-2 is-outlined is-info">
+                        California Address Generator
+                    </a>
+                    <a href="/random-street-address" class="button is-medium mb-2  is-outlined is-info">
+                        Random Street Address
+                    </a>
+                    <a href="/random-house-address" class="button is-medium mb-2 is-info is-outlined">
+                        Random House Address
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <figure class="image image is-5by3">
+                    <img src="https://bulma.io/assets/images/placeholders/256x256.png" />
+                </figure>
+            </div>
+            <div class="column">
+                <!-- <iframe width="700" height="425"
+                    src="https://www.youtube.com/embed/6_c3FgKjTe0?si=zaRg7fsm9F8bP0NQ&amp;controls=0"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+            </div>
+        </div>
+    </section>
+    <footer class="footer footer-background-dark pb-6 mt-4 light-theme"
+        style="box-shadow: 0px -1px 0px #1a1b28; background: #0C0D14; " id="footer">
+        <div class="content has-text-centered" id="svgcontainer">
+            <h2 class="light-theme has-text-weight-semibold" style="font-family: 'Lobster', cursive; font-weight: 100;"
+                id="rpen">Address Generator
+            </h2>
+        </div>
+        <strong>
+            <p class="has-text-centered light-theme" id="copyright">Copyright © RandomPen
+                2024 |
+                1.1 </p>
+        </strong>
+        <p class="has-text-centered mt-2">Created with code and curiosity...</p>
+    </footer>
+    <!-- SVG's -->
+    <div style="display: none;">
+        <svg id="iconButton" viewBox="0 -960 960 960" fill="#5f6368">
+            <path
+                d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z" />
+        </svg>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification nf is-success" id="message">
+        <p class="has-text-light has-text-weight-semibold is-size-5">Content copied to clipboard successfully!</p>
+    </div>
+</body>
+
+</html>
