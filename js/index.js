@@ -1,4 +1,13 @@
 let addressData = {};
+const checkBoxes = {
+    streetNumber: "",
+    streetName: "",
+    city: "",
+    state: "",
+    zipCode: ""
+}
+
+let selectState;
 document.addEventListener("DOMContentLoaded", async () => {
     const generator = document.getElementById('generator').innerHTML;
     try {
@@ -7,15 +16,100 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
         console.error("Failed to load address data:", error);
     }
+
+
+    selectedRow = document.querySelector("#reorderTable tr"); // Select first row by default
+
+    // Highlight the first row on page load
+    if (selectedRow) {
+        selectedRow.classList.add("selected");
+    }
+
+    const modal = document.querySelector('.modal');
+    document.getElementById('customize').addEventListener('click', () => {
+        modal.classList.add('is-active');
+    })
+
+    document.getElementById('delete').addEventListener('click', () => {
+        modal.classList.remove('is-active');
+        generateAddresses(document.getElementById('inputRN').value);
+    })
+
+    checkBoxes.streetNumber = document.getElementById('streetNumber');
+    checkBoxes.streetName = document.getElementById('streetName');
+    checkBoxes.city = document.getElementById('city');
+    checkBoxes.state = document.getElementById('state');
+    checkBoxes.zipCode = document.getElementById('zipCode');
+
+    selectState = document.getElementById('selectState');
+    selectState.addEventListener("change", generateAddresses);
+
+    Object.values(checkBoxes).forEach(checkBox => {
+        checkBox.addEventListener("input", generateAddresses);
+    })
+
+    setTimeout(() => {
+        console.clear();
+    }, 1000);
 });
+
+let selectedRow;
+function selectRow(row) {
+    if (selectedRow) {
+        selectedRow.classList.remove("selected");
+    }
+    selectedRow = row;
+    selectedRow.classList.add("selected");
+}
+
+function moveSelectedRowUp() {
+    if (selectedRow) {
+        const previousRow = selectedRow.previousElementSibling;
+        if (previousRow) {
+            selectedRow.parentNode.insertBefore(selectedRow, previousRow);
+            updateAddress();
+        }
+    }
+}
+
+function moveSelectedRowDown() {
+    if (selectedRow) {
+        const nextRow = selectedRow.nextElementSibling;
+        if (nextRow) {
+            selectedRow.parentNode.insertBefore(nextRow, selectedRow);
+            updateAddress();
+        }
+    }
+}
+
+function updateAddress() {
+    const rows = document.querySelectorAll("#reorderTable tr");
+    let addressParts = [];      // For values
+    let fieldNames = [];         // For field names
+
+    rows.forEach(row => {
+        const cell = row.querySelector("td");
+        const value = cell.getAttribute("value");    // Get the value for address
+        const fieldName = cell.textContent.trim();   // Get the field name
+
+        addressParts.push(value);
+        fieldNames.push(fieldName);
+    });
+
+    // Join and display the field names and values in respective elements
+    document.getElementById("addressFormat").innerHTML = fieldNames.join(", ");
+    document.getElementById("sampleAddress").innerHTML = addressParts.join(", ");
+}
 
 
 // Function to generate random addresses
 function generateAddresses(count) {
-    const input = document.getElementById('inputRN');
-    if (!count) {
-        count = input.value;
+    // Check if 'count' is an event object and set to default if so
+    if (count instanceof Event) {
+        count = document.getElementById('inputRN').value || 10; // default to 10
     }
+
+    // Adjust 'count' based on specific conditions
     if (count === "random") {
         count = Math.floor(Math.random() * 100) + 1;
     } else if (count === "all") {
@@ -27,19 +121,49 @@ function generateAddresses(count) {
     const addresses = [];
 
     for (let i = 0; i < count; i++) {
-        const streetNumber = getRandomItem(addressData.streetNumbers);
-        const streetName = getRandomItem(addressData.streetNames);
-        const city = getRandomItem(addressData.cities);
-        const state = getRandomItem(addressData.states);
-        const zipCode = getRandomItem(addressData.zipCodes);
+        const address = [];
 
-        const address = `${streetNumber} ${streetName}, ${city}, ${state} ${zipCode}`;
-        addresses.push(address);
+        // Read rows in the table to determine address structure
+        const rows = document.querySelectorAll("#reorderTable tr");
+
+        rows.forEach(row => {
+            const fieldName = row.cells[0].innerText.trim();
+
+            // Match field names and generate address parts
+            switch (fieldName) {
+                case "Street Number":
+                    if (checkBoxes.streetNumber.checked)
+                        address.push(getRandomItem(addressData.streetNumbers));
+                    break;
+                case "Street Name":
+                    if (checkBoxes.streetName.checked)
+                        address.push(getRandomItem(addressData.streetNames));
+                    break;
+                case "City":
+                    if (checkBoxes.city.checked)
+                        address.push(getRandomItem(addressData.cities));
+                    break;
+                case "State":
+                    if (checkBoxes.state.checked)
+                        if (selectState.value == 'all')
+                            address.push(getRandomItem(addressData.states));
+                        else address.push(selectState.value);
+                    break;
+                case "Zip Code":
+                    if (checkBoxes.zipCode.checked)
+                        address.push(getRandomItem(addressData.zipCodes));
+                    break;
+            }
+        });
+
+        addresses.push(address.join(', '));
     }
 
-    input.value = addresses.length || 0;
+    // Update the input value and render the addresses
+    document.getElementById('inputRN').value = addresses.length || 0;
     renderAddresses(addresses);
 }
+
 
 // Helper function to get a random item from an array
 function getRandomItem(arr) {
@@ -53,7 +177,7 @@ function renderAddresses(addresses) {
         generatedHTML += `
         
             <div class="column is-3">
-            <div class="card">
+            <div class="card has-background-info-light">
                 <div class="card-content">
                     <div class="has-text-right">
                         <button class="button is-ghost copyButton" onclick="copyAddress(${index})">

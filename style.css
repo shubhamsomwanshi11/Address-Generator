@@ -170,3 +170,11 @@
 .card {
     height: 100%;
 }
+
+.selected {
+    background-color: lightblue;
+}
+
+#reorderTable tr {
+    cursor: pointer;
+}
