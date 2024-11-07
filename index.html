@@ -74,7 +74,7 @@
         <h1 class="has-text-centered title" style="font-family: 'Lobster', cursive; font-weight: 100;">US Address
             Generator</h1>
         <hr />
-        <div class="columns">
+        <div class="columns ">
             <div class="column is-2">
                 <div class="field has-addons">
                     <div class="control">
@@ -114,18 +114,41 @@
                     Random
                 </button>
 
-                <button class="button is-outlined is-info is-pulled-right" onclick="downloadAddresses()">
-                    Download
-                </button>
-
-                <div class="select is-info is-pulled-right mr-2">
-                    <select class="has-background-grey-dark has-text-light light-theme" id="filetype">
-                        <option value="TEXT">TEXT</option>
-                        <option value="JSON">JSON</option>
-                        <option value="XML">XML</option>
-                        <option value="CSV">CSV</option>
-                    </select>
+                <div class="field has-addons is-pulled-right ml-2">
+                    <div class="control">
+                        <input type="number" class="input is-danger" placeholder="No. of Columns" min="1" max="3"
+                            id="columnCount" style="width: 60px;" value="2" />
+                    </div>
+                    <div class="control">
+                        <button class="button has-text-white is-danger is-pulled-right" onclick="exportPDF()">
+                            Print PDF <svg class="svgicon">
+                                <use href="#PDFIcon"></use>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
+
+                <div class="field has-addons is-pulled-right">
+                    <div class="control">
+                        <div class="select is-success">
+                            <select class="has-background-grey-dark has-text-weight-semibold has-text-light light-theme"
+                                id="filetype">
+                                <option value="TEXT">TEXT</option>
+                                <option value="JSON">JSON</option>
+                                <option value="XML">XML</option>
+                                <option value="CSV">CSV</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button class="button has-text-white is-success" onclick="downloadAddresses()">
+                            Download <svg class="svgicon ml-1">
+                                <use href="#downloadIcon"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
                 <select id="selectCategory" class="is-hidden" onchange="sampleCards('generate');">
                     <option>All</option>
                 </select>
@@ -134,40 +157,76 @@
 
         <div class="box">
             <div id="fieldsToShow" style="width:100%">
-                <div class="columns">
-                    <div
-                        class="column is-flex is-justify-content-space-between is-5 has-text-weight-semibold is-align-items-center">
-                        <label class=" checkbox">
-                            <input type="checkbox" id="streetName" checked />
-                            Street Name
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" id="streetNumber" checked />
-                            Street Number
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" id="city" checked />
-                            City
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" id="state" checked />
-                            State
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" id="zipCode" checked />
-                            Zip Code
-                        </label>
+                <div class="columns is-align-items-center">
+                    <div class="column">
+                        <table class="table is-fullwidth">
+                            <tr>
+                                <td>
+                                    <label class=" checkbox">
+                                        <input type="checkbox" id="streetName" checked />
+                                        Street Name
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="streetNumber" checked />
+                                        Street Number
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="city" checked />
+                                        City
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="state" checked />
+                                        State
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="zipCode" checked />
+                                        Zip Code
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="firstName" />
+                                        First Name
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="lastName" />
+                                        Last Name
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="phone" />
+                                        Phone No
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+
                     </div>
                     <div class="column is-justify-content-center is-justify-content-end">
                         <div class="is-flex is-flex-direction-column is-align-items-center">
-                            <p class="has-text-weight-semibold" id="addressFormat">Street Name, Street Number, City, State, ZipCode</p>
+                            <p class="has-text-weight-semibold" id="addressFormat">Name, Surname, Phone, Street Name,
+                                Street Number, City,
+                                State, ZipCode</p>
                             <div class="has-text-centered">
                                 <button class="button is-ghost" id="customize">Customize Format</button>
                             </div>
                         </div>
                     </div>
-                    <div class="column is-3 has-text-right is-flex is-justify-content-center is-justify-content-end">
-                        <label for="selectState" class="has-text-weight-semibold mt-2">Select State : </label>
+                    <div class="column is-2 has-text-right is-flex is-flex-direction-column is-align-items-center">
+                        <label for="selectState" class="has-text-weight-semibold mb-2">Select State : </label>
                         <div class="select ml-2">
                             <select name="" id="selectState">
                                 <option value="all">All</option>
@@ -189,7 +248,7 @@
         </div>
 
         <!-- Showing Generated Address -->
-        <div id="addressArea" class="columns has-text-weight-semibold is-multiline" style="min-height: 60vh;">
+        <div id="addressArea" class="columns has-text-weight-semibold is-multiline ">
 
             <div class="column is-3">
                 <div class="card has-background-info-light">
@@ -444,11 +503,11 @@
                 </figure>
             </div>
             <div class="column">
-                <iframe width="700" height="425"
+                <!-- <iframe width="700" height="425"
                     src="https://www.youtube.com/embed/6_c3FgKjTe0?si=zaRg7fsm9F8bP0NQ&amp;controls=0"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
             </div>
         </div>
     </section>
@@ -468,9 +527,23 @@
     </footer>
     <!-- SVG's -->
     <div style="display: none;">
+        <!-- Copy -->
         <svg id="iconButton" viewBox="0 -960 960 960" fill="#5f6368">
             <path
                 d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z" />
+        </svg>
+
+        <!-- PDF -->
+        <svg xmlns="http://www.w3.org/2000/svg" id="PDFIcon" viewBox="0 -960 960 960" fill="#FFFFFF">
+            <path
+                d="M360-460h40v-80h40q17 0 28.5-11.5T480-580v-40q0-17-11.5-28.5T440-660h-80v200Zm40-120v-40h40v40h-40Zm120 120h80q17 0 28.5-11.5T640-500v-120q0-17-11.5-28.5T600-660h-80v200Zm40-40v-120h40v120h-40Zm120 40h40v-80h40v-40h-40v-40h40v-40h-80v200ZM320-240q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z" />
+        </svg>
+
+        <!-- Download -->
+        <svg xmlns="http://www.w3.org/2000/svg" id="downloadIcon" height="24px" viewBox="0 -960 960 960" width="24px"
+            fill="#FFFFFF">
+            <path
+                d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
         </svg>
     </div>
 
@@ -491,6 +564,15 @@
                 <div class="columns">
                     <div class="column is-6">
                         <table class="table mt-5 has-text-centered has-text-weight-semibold" id="reorderTable">
+                            <tr onclick="selectRow(this)">
+                                <td value="John">Name</td>
+                            </tr>
+                            <tr onclick="selectRow(this)">
+                                <td value="Smith">Surname</td>
+                            </tr>
+                            <tr onclick="selectRow(this)">
+                                <td value="+1 000000000">Phone</td>
+                            </tr>
                             <tr onclick="selectRow(this)">
                                 <td value="505">Street Number</td>
                             </tr>
@@ -520,7 +602,8 @@
                                         </svg>
                                     </button>
                                 </div>
-                                <p class="mt-1" id="sampleAddress">505 Elm Street, Springfield, FL 48201</p>
+                                <p class="mt-1" id="sampleAddress">John, Smith, +1 000000000, 505, Elm Street,
+                                    Springfield, FL, 48201</p>
                             </div>
                         </div>
                     </div>

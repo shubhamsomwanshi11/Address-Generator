@@ -1,10 +1,14 @@
 let addressData = {};
+let namesData = {};
 const checkBoxes = {
     streetNumber: "",
     streetName: "",
     city: "",
     state: "",
-    zipCode: ""
+    zipCode: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
 }
 
 let selectState;
@@ -15,6 +19,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         addressData = await response.json();
     } catch (error) {
         console.error("Failed to load address data:", error);
+    }
+
+    try {
+        const response = await fetch(`data/Name.json`);
+        namesData = await response.json();
+    } catch (error) {
+        console.error("Failed to load names data:", error);
     }
 
 
@@ -40,6 +51,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     checkBoxes.city = document.getElementById('city');
     checkBoxes.state = document.getElementById('state');
     checkBoxes.zipCode = document.getElementById('zipCode');
+    checkBoxes.firstName = document.getElementById('firstName');
+    checkBoxes.lastName = document.getElementById('lastName');
+    checkBoxes.phone = document.getElementById('phone');
 
     selectState = document.getElementById('selectState');
     selectState.addEventListener("change", generateAddresses);
@@ -47,10 +61,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     Object.values(checkBoxes).forEach(checkBox => {
         checkBox.addEventListener("input", generateAddresses);
     })
-
-    setTimeout(() => {
-        console.clear();
-    }, 1000);
 });
 
 let selectedRow;
@@ -121,42 +131,61 @@ function generateAddresses(count) {
     const addresses = [];
 
     for (let i = 0; i < count; i++) {
-        const address = [];
+        const address = {}; // Initialize as an object
 
         // Read rows in the table to determine address structure
         const rows = document.querySelectorAll("#reorderTable tr");
 
         rows.forEach(row => {
             const fieldName = row.cells[0].innerText.trim();
-
             // Match field names and generate address parts
             switch (fieldName) {
+                case "Name":
+                    if (checkBoxes.firstName.checked) {
+                        address.firstName = getRandomItem(namesData.firstNames);
+                    }
+                    break;
+                case "Surname":
+                    if (checkBoxes.lastName.checked) {
+                        address.lastName = getRandomItem(namesData.lastNames);
+                    }
+                    break;
+                case "Phone":
+                    if (checkBoxes.phone.checked) {
+                        address.phone = addressData.countryCode + " " + getRandomPhone();
+                    }
+                    break;
                 case "Street Number":
-                    if (checkBoxes.streetNumber.checked)
-                        address.push(getRandomItem(addressData.streetNumbers));
+                    if (checkBoxes.streetNumber.checked) {
+                        address.streetNumber = getRandomItem(addressData.streetNumbers);
+                    }
                     break;
                 case "Street Name":
-                    if (checkBoxes.streetName.checked)
-                        address.push(getRandomItem(addressData.streetNames));
+                    if (checkBoxes.streetName.checked) {
+                        address.streetName = getRandomItem(addressData.streetNames);
+                    }
                     break;
                 case "City":
-                    if (checkBoxes.city.checked)
-                        address.push(getRandomItem(addressData.cities));
+                    if (checkBoxes.city.checked) {
+                        address.city = getRandomItem(addressData.cities);
+                    }
                     break;
                 case "State":
-                    if (checkBoxes.state.checked)
-                        if (selectState.value == 'all')
-                            address.push(getRandomItem(addressData.states));
-                        else address.push(selectState.value);
+                    if (checkBoxes.state.checked) {
+                        address.state = (selectState.value === 'all')
+                            ? getRandomItem(addressData.states)
+                            : selectState.value;
+                    }
                     break;
                 case "Zip Code":
-                    if (checkBoxes.zipCode.checked)
-                        address.push(getRandomItem(addressData.zipCodes));
+                    if (checkBoxes.zipCode.checked) {
+                        address.zipCode = getRandomItem(addressData.zipCodes);
+                    }
                     break;
             }
         });
 
-        addresses.push(address.join(', '));
+        addresses.push(address); // Add the object to the addresses array
     }
 
     // Update the input value and render the addresses
@@ -164,6 +193,12 @@ function generateAddresses(count) {
     renderAddresses(addresses);
 }
 
+
+
+// Helper function to get a random phone number
+function getRandomPhone() {
+    return Math.floor(1000000000 + Math.random() * 9000000000);
+}
 
 // Helper function to get a random item from an array
 function getRandomItem(arr) {
@@ -173,26 +208,90 @@ function getRandomItem(arr) {
 // Render Generated Addresses to document
 function renderAddresses(addresses) {
     let generatedHTML = "";
+
     addresses.forEach((address, index) => {
         generatedHTML += `
-        
             <div class="column is-3">
-            <div class="card has-background-info-light">
-                <div class="card-content">
-                    <div class="has-text-right">
-                        <button class="button is-ghost copyButton" onclick="copyAddress(${index})">
-                            <svg class="svgicon">
-                                <use href="#iconButton"></use>
-                            </svg>
-                        </button>
+                <div class="card has-background-info-light">
+                    <div class="card-content">
+                        <div class="has-text-right">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(${index})">
+                                <svg class="svgicon">
+                                    <use href="#iconButton"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="is-size-5">${address.firstName || ''} ${address.lastName || ''}</p>
+                        ${address.phone ? `<p class="mt-1">Phone: ${address.phone}</p>` : ''}
+                        <p class="mt-1" id="address-${index}">
+                            ${address.streetNumber || ''} ${address.streetName || ''}, 
+                            ${address.city || ''}, ${address.state || ''} ${address.zipCode || ''}
+                        </p>
                     </div>
-                    <p class="mt-1" id="address-${index}">${address}</p>
                 </div>
-                </div>
-            </div>`;
+            </div>
+        `;
     });
+
     document.getElementById('addressArea').innerHTML = generatedHTML;
     document.getElementById('generatedCount').innerHTML = addresses.length || 0;
+}
+
+function exportPDF() {
+    const columnCount = document.getElementById('columnCount').value;
+    const container = document.getElementById('addressArea').cloneNode(true);
+
+    // Determine the new class based on the column count
+    let newClass;
+    switch (columnCount) {
+        case '1':
+            newClass = 'is-12';
+            break;
+        case '2':
+            newClass = 'is-6';
+            break;
+        case '3':
+            newClass = 'is-4';
+            break;
+        default:
+            newClass = 'is-3';
+            break;
+    }
+
+    // Update columns with the new class in the cloned container
+    const columns = container.querySelectorAll('.column');
+    columns.forEach(column => {
+        column.classList.remove('is-3', 'is-4', 'is-6', 'is-12'); // Remove any previous column class
+        column.classList.add(newClass); // Add the new class based on column count
+    });
+
+    // Create a new window for printing
+    const printWindow = window.open('', '_blank', 'width=1000,height=1000');
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>Print Address</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+                    .card{
+                     height: fit-content;
+                    }
+                     .svgicon{
+                     display : none;
+                     height : 0px;
+                     width: 0px;
+                     }
+                </style>
+                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+            </head>
+            <body>${container.outerHTML}</body>
+        </html>
+    `);
+
+    // Print and close the temporary window
+    printWindow.document.close();
+    printWindow.print();
+    printWindow.close();
 }
 
 // Function to copy content of a specific address on button click
