@@ -266,23 +266,40 @@ function exportPDF() {
     });
 
     // Create a new window for printing
-    const printWindow = window.open('', '_blank', 'width=1000,height=1000');
+    const printWindow = window.open('', '_blank', `width=${screen.width},height=${screen.height}`);
     printWindow.document.write(`
         <html>
             <head>
                 <title>Print Address</title>
                 <style>
-                    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-                    .card{
-                     height: fit-content;
+                    /* Ensure content fits within a single page */
+                    body { 
+                        font-family: Arial, sans-serif; 
+                        margin: 0; 
+                        padding: 0; 
+                        height: 100vh;
+                        overflow: hidden;
                     }
-                     .svgicon{
-                     display : none;
-                     height : 0px;
-                     width: 0px;
-                     }
+                    .card {
+                        height: fit-content;
+                        page-break-inside: avoid; /* Avoid breaking card content between pages */
+                    }
+                    .svgicon {
+                        display: none;
+                        height: 0;
+                        width: 0;
+                    }
+                    /* Ensure Bulma's columns system works for print */
+                    .columns {
+                        display: flex;
+                        flex-wrap: wrap;
+                    }
+                    .column {
+                        display: flex;
+                        flex: 1;
+                    }
                 </style>
-                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
             </head>
             <body>${container.outerHTML}</body>
         </html>
