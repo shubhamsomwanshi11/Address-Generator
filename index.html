@@ -10,14 +10,14 @@
     <script src="./js/index.js"></script>
 </head>
 
-<body>
-    <!-- Important to update as per generator -->
+<body class="light-theme">
     <span style="display: none;" id="generator">US</span>
-    <nav id="navbar" class="navbar navstyle pt-1 pb-1 is-fixed-top is-sticky light-theme" role="navigation"
+    <nav id="navbar" class="navbar navstyle pt-1 pb-1 is-fixed-top is-sticky" role="navigation"
         aria-label="main navigation">
         <div class="navbar-brand is-hidden-desktop">
             <a href="/" class="navbar-item">
-                <h1 class="title is-5" style="font-family: 'Lobster', cursive; font-weight: 100;">Address Generator</h1>
+                <h1 class="is-5 is-white is-size-1" style="font-family: 'Lobster', cursive; font-weight: 100;">Address
+                    Generator</h1>
             </a>
 
             <div class="mt-2">
@@ -30,15 +30,14 @@
 
         <div class="navbar-menu columns">
             <div class="column navbar-item">
-                <a href="/">
-                    <h1 class="title m-2" style="font-family: 'Lobster', cursive;">Address Generator</h1>
+                <a href="/" class="has-text-white">
+                    <h1 class="m-2 is-white is-size-3" style="font-family: 'Lobster', cursive;">Address Generator</h1>
                 </a>
             </div>
             <div class="column mt-2 navbar-item ">
                 <div class="control has-icons-right">
-                    <input id="search" autofocus="autofocus" class="input is-rounded" type="text"
-                        placeholder="Search Address Generator" autocomplete="off"
-                        style="background-color: lightgrey; color: black;">
+                    <input id="search" autofocus="autofocus" class="input" type="text"
+                        placeholder="Search Address Generator">
                     <span class="icon is-right has-text-grey">
                         <svg class="svgicon16">
                             <use href="#search"></use>
@@ -48,37 +47,31 @@
             </div>
 
             <div class="column mt-2 navbar-item ">
-                <!-- <div class="buttons" style="float: right;">
-                    <button class="button is-ghost is-clickable mx-2 light-theme" >
-                        <span class="icon is-right has-text-light is-clickable light-theme" id="fullscreenset">
+                <div class="buttons" style="float: right;">
+                    <button class="button is-ghost is-clickable mx-2 light-theme">
+                        <span class="icon is-size-5is-right" id="theme">
                             <svg class="svgicon">
-                                <use href="#fullscreen"></use>
+                                <use href="#dark"></use>
                             </svg>
                         </span>
-                    </button>
-                    <button class="button is-ghost is-clickable mx-2 light-theme" >
-                        <span class="icon is-right has-text-light is-clickable light-theme" id="theme"><svg
-                                class="svgicon">
-                                <use href="#dark"></use>
-                            </svg></span>
                     </button>
                     <button class="button is-ghost is-light has-text-light mx-2 light-theme " id="tools">
                         <strong class="ml-2 pb-1">Favourites ❤️</strong>
                     </button>
-                </div> -->
+                </div>
             </div>
         </div>
     </nav>
     <section class="section" style="margin-top: 50px">
         <!-- Controllers -->
-        <h1 class="has-text-centered title" style="font-family: 'Lobster', cursive; font-weight: 100;">US Address
+        <h1 class="has-text-centered  is-size-2" style="font-family: 'Lobster', cursive; font-weight: 100;">US Address
             Generator</h1>
         <hr />
         <div class="columns ">
             <div class="column is-2">
                 <div class="field has-addons">
                     <div class="control">
-                        <input id="inputRN" class="input has-background-grey-dark has-text-light is-info light-theme"
+                        <input id="inputRN" class="input has-text-centered has-text-weight-semibold is-info light-theme"
                             type="text" value="12" placeholder="Number">
                     </div>
                     <div class="control">
@@ -90,27 +83,27 @@
             </div>
 
             <div class="column is-10"> <!-- for data content-->
-                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(2)">
+                <button class="button is-rounded is-outlined is-link" onclick="generateAddresses(2)">
                     2 Addresses </button>
-                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(5)">
+                <button class="button is-rounded is-outlined is-link" onclick="generateAddresses(5)">
                     5
                 </button>
-                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(10)">
+                <button class="button is-rounded is-outlined is-link" onclick="generateAddresses(10)">
                     10
                 </button>
-                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(15)">
+                <button class="button is-rounded is-outlined is-link" onclick="generateAddresses(15)">
                     15
                 </button>
-                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(20)">
+                <button class="button is-rounded is-outlined is-link" onclick="generateAddresses(20)">
                     20
                 </button>
-                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses(25)">
+                <button class="button is-rounded is-outlined is-link" onclick="generateAddresses(25)">
                     25
                 </button>
-                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses('all')">
+                <button class="button is-rounded is-outlined is-link" onclick="generateAddresses('all')">
                     All
                 </button>
-                <button class="button is-rounded is-outlined is-primary" onclick="generateAddresses('random')">
+                <button class="button is-rounded is-outlined is-link" onclick="generateAddresses('random')">
                     Random
                 </button>
 
@@ -131,8 +124,7 @@
                 <div class="field has-addons is-pulled-right">
                     <div class="control">
                         <div class="select is-success">
-                            <select class="has-background-grey-dark has-text-weight-semibold has-text-light light-theme"
-                                id="filetype">
+                            <select class=" has-text-weight-semibold " id="filetype">
                                 <option value="TEXT">TEXT</option>
                                 <option value="JSON">JSON</option>
                                 <option value="XML">XML</option>
@@ -225,22 +217,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-2 has-text-right is-flex is-flex-direction-column is-align-items-center">
-                        <label for="selectState" class="has-text-weight-semibold mb-2">Select State : </label>
-                        <div class="select ml-2">
-                            <select name="" id="selectState">
-                                <option value="all">All</option>
-                                <option value="IL">Illinois</option>
-                                <option value="CA">California</option>
-                                <option value="NY">New York</option>
-                                <option value="TX">Texas</option>
-                                <option value="FL">Florida</option>
-                                <option value="NV">Nevada</option>
-                                <option value="OH">Ohio</option>
-                                <option value="MI">Michigan</option>
-                                <option value="GA">Georgia</option>
-                                <option value="NC">North Carolina</option>
-                            </select>
+
+                    <div class="column is-2 field has-addons is-pulled-right">
+                        <div class="control is-flex is-align-items-center mt-1">
+                            <label for="selectState" class="has-text-weight-semibold mb-2">State </label>
+                        </div>
+                        <div class="control">
+                            <div class="select ml-2">
+                                <select name="" id="selectState">
+                                    <option value="all">All</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="CA">California</option>
+                                    <option value="NY">New York</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="NC">North Carolina</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -249,202 +246,263 @@
 
         <!-- Showing Generated Address -->
         <div id="addressArea" class="columns has-text-weight-semibold is-multiline ">
-
             <div class="column is-3">
-                <div class="card has-background-info-light">
+                <div class="card" style="  background-image: url('./assets/img/leaf1.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(0)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(0)" fdprocessedid="1film">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-0">101 Elm Street, Arlington, TX 90210</p>
+                        <p class="is-size-5">Hunter Young</p>
+
+                        <p class="mt-1" id="address-0">
+                            707 Washington Ave,
+                            Ashland, NC 33101
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf6.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(1)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(1)" fdprocessedid="27rj6u">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-1">5678 Oak Street, Arlington, NY 30301</p>
+                        <p class="is-size-5">Ayden Foster</p>
+
+                        <p class="mt-1" id="address-1">
+                            4321 Sunset Boulevard,
+                            Arlington, MI 89501
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf6.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(2)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(2)" fdprocessedid="p05arl">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-2">505 Elm Street, Springfield, FL 48201</p>
+                        <p class="is-size-5">Silas Ward</p>
+
+                        <p class="mt-1" id="address-2">
+                            202 Oak Street,
+                            Fairview, FL 44101
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf6.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(3)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(3)" fdprocessedid="nddp9j">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-3">5678 Peachtree Blvd, Greenville, GA 48201</p>
+                        <p class="is-size-5">Axel Gray</p>
+
+                        <p class="mt-1" id="address-3">
+                            606 Sunset Boulevard,
+                            Riverside, NY 48201
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf2.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(4)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(4)" fdprocessedid="8eqhjc">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-4">606 Cedar Lane, Salem, NV 30301</p>
+                        <p class="is-size-5">Sebastian Carter</p>
+
+                        <p class="mt-1" id="address-4">
+                            808 Elm Street,
+                            Salem, CA 33101
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf4.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(5)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(5)" fdprocessedid="rcn58">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-5">909 Walnut Street, Georgetown, OH 90210</p>
+                        <p class="is-size-5">Logan Parker</p>
+
+                        <p class="mt-1" id="address-5">
+                            404 Cedar Lane,
+                            Salem, NC 33101
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf4.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(6)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(6)" fdprocessedid="50qb6m">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-6">808 Peachtree Blvd, Greenville, TX 73301</p>
+                        <p class="is-size-5">Andrew Morgan</p>
+
+                        <p class="mt-1" id="address-6">
+                            707 Walnut Street,
+                            Ashland, OH 73301
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf4.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(7)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(7)" fdprocessedid="9rzva9">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-7">1234 Sunset Boulevard, Springfield, GA 30301</p>
+                        <p class="is-size-5">Easton Bell</p>
+
+                        <p class="mt-1" id="address-7">
+                            303 Broadway,
+                            Clinton, NY 62701
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf2.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(8)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(8)" fdprocessedid="34bmy">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-8">303 Maple Avenue, Salem, MI 27501</p>
+                        <p class="is-size-5">Maxwell Washington</p>
+
+                        <p class="mt-1" id="address-8">
+                            4321 Peachtree Blvd,
+                            Springfield, MI 33101
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf4.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(9)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(9)" fdprocessedid="9wkwxk">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-9">5678 Oak Street, Springfield, GA 33101</p>
+                        <p class="is-size-5">Caden Edwards</p>
+
+                        <p class="mt-1" id="address-9">
+                            707 Walnut Street,
+                            Salem, NY 30301
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf5.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(10)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(10)" fdprocessedid="strlzk">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-10">1234 Peachtree Blvd, Fairview, OH 33101</p>
+                        <p class="is-size-5">Angel Butler</p>
+
+                        <p class="mt-1" id="address-10">
+                            909 Washington Ave,
+                            Greenville, NV 27501
+                        </p>
                     </div>
                 </div>
             </div>
 
             <div class="column is-3">
-                <div class="card">
+                <div class="card" style="  background-image: url('./assets/img/leaf1.png');">
                     <div class="card-content">
                         <div class="has-text-right">
-                            <button class="button is-ghost copyButton" onclick="copyAddress(11)">
+                            <button class="button is-ghost copyButton" onclick="copyAddress(11)" fdprocessedid="vq59kw">
                                 <svg class="svgicon">
                                     <use href="#iconButton"></use>
                                 </svg>
                             </button>
                         </div>
-                        <p class="mt-1" id="address-11">303 Oak Street, Greenville, IL 30301</p>
+                        <p class="is-size-5">Silas Garcia</p>
+
+                        <p class="mt-1" id="address-11">
+                            202 Cedar Lane,
+                            Fairview, TX 90210
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Count -->
-        <div class="notification has-text-centered p-3" style="border-radius: 8px;">
+        <div class="notification is-info has-text-centered p-3" style="border-radius: 8px;">
             <h3 class="is-size-3" style="font-family: 'Lobster', cursive; font-weight: 100;" id="count">
                 <span class="is-size-1 has-text-warning" id="generatedCount">12</span>
-                Addresses generated
+                <span class="has-text-light">
+                    Addresses Generated
+                </span>
             </h3>
         </div>
-
+        <hr />
         <div class="columns mt-2">
             <!-- About Seciton -->
             <div class="column is-9">
                 <h2 class="title" style="font-family: 'Lobster', cursive;">US
                     Address Generator Online
                 </h2>
-                <div class="content">
+                <div class="content" style="text-align: justify;">
                     <p class="is-size-5">The Random Address Generator tool helps to generate addresses of the
                         United
                         States.
@@ -481,8 +539,7 @@
 
             <!-- Other Generators -->
             <div class="column">
-                <div class="box has-text-centered is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
-                    style="height: 100%;">
+                <div class="box has-text-centered">
                     <a href="/california-address-generator" class="button is-medium mb-2 is-outlined is-info">
                         California Address Generator
                     </a>
@@ -498,28 +555,28 @@
 
         <div class="columns">
             <div class="column">
-                <figure class="image image is-5by3">
-                    <img src="https://bulma.io/assets/images/placeholders/256x256.png" />
+                <figure class="image image is-5by3 ">
+                    <img src="https://cdn.britannica.com/33/4833-050-F6E415FE/Flag-United-States-of-America.jpg" />
                 </figure>
             </div>
             <div class="column">
-                <!-- <iframe width="700" height="425"
+                <iframe width="700" height="425"
                     src="https://www.youtube.com/embed/6_c3FgKjTe0?si=zaRg7fsm9F8bP0NQ&amp;controls=0"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </div>
     </section>
-    <footer class="footer footer-background-dark pb-6 mt-4 light-theme"
-        style="box-shadow: 0px -1px 0px #1a1b28; background: #0C0D14; " id="footer">
+
+    <hr />
+    <footer class="footer light-theme">
         <div class="content has-text-centered" id="svgcontainer">
-            <h2 class="light-theme has-text-weight-semibold" style="font-family: 'Lobster', cursive; font-weight: 100;"
-                id="rpen">Address Generator
-            </h2>
+            <h2 class="has-text-weight-semibold" style="font-family: 'Lobster', cursive; font-weight: 100;" id="rpen">
+                Address Generator</h2>
         </div>
         <strong>
-            <p class="has-text-centered light-theme" id="copyright">Copyright © RandomPen
+            <p class="has-text-centered" id="copyright">Copyright © RandomPen
                 2024 |
                 1.1 </p>
         </strong>
@@ -544,6 +601,13 @@
             fill="#FFFFFF">
             <path
                 d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+        </svg>
+
+
+        <svg xmlns="http://www.w3.org/2000/svg" id="dark" height="24px" viewBox="0 -960 960 960" width="24px"
+            fill="#FFFFFF">
+            <path
+                d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z" />
         </svg>
     </div>
 

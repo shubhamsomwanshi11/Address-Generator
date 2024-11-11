@@ -211,8 +211,8 @@ function renderAddresses(addresses) {
 
     addresses.forEach((address, index) => {
         generatedHTML += `
-            <div class="column is-3">
-                <div class="card has-background-info-light">
+            <div class="column is-3" >
+                <div class="card" style="  background-image: url('./assets/img/leaf${Math.floor(Math.random() * 6) + 1}.png');">
                     <div class="card-content">
                         <div class="has-text-right">
                             <button class="button is-ghost copyButton" onclick="copyAddress(${index})">
